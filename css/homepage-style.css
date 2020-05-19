@@ -1,0 +1,40 @@
+body{
+    background: rgb(21, 2, 75);
+    overflow-y: hidden;
+}
+
+canvas{
+    border: 5px solid chartreuse;
+    background: rgb(21, 2, 75);
+}
+
+#buttons{
+    text-align: center;
+}
+
+button {
+    width: 250px;
+    height: 50px;;
+    margin-top: 20px;
+    padding: 15px 25px;
+    font-size: 25px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    color: #ccf381;
+    background-color:#4831d4;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px rgb(86, 4, 133);
+  }
+  
+  button:hover {background-color: #e708dc;
+                box-shadow: 0 5px #a812a1; 
+                font-family: cursive;
+                color: greenyellow;}
+  
+  sbutton:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }

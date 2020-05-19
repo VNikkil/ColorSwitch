@@ -1,0 +1,83 @@
+body{
+    background: rgb(21, 2, 75);
+    overflow-y: hidden;
+}
+
+canvas{
+    border: 5px solid chartreuse;
+    background: black;
+    margin-left: 20px;
+}
+
+#ins1{
+    position:absolute;
+    left: 1%;
+    top:40%;
+    font-family: cursive;
+    font-size: 20px;
+    color: purple;
+}
+
+
+#ins2{
+    position:absolute;
+    right: 1%;
+    top:40%;
+    font-family: cursive;
+    font-size: 20px;
+    color: purple;
+}
+
+#highscore-text{
+    position: absolute;
+    right: 3%;
+    top:5%;
+    font-size: 40px;
+    font-family: cursive;
+    color: cyan;
+}
+
+#score{
+    position: absolute;
+    right: 13%;
+    top:20%;
+    font-size: 50px;
+    font-family: sans-serif;
+    color: rgb(255, 28, 11);
+}
+
+#player1{
+    position: absolute;
+    left: 1%;
+    top: 5%;
+    font-size: 25px;
+    font-family: sans-serif;
+    color: lightsalmon;
+}
+
+#player2{
+    position: absolute;
+    right: 3%;
+    top: 5%;
+    font-size: 25px;
+    font-family: sans-serif;
+    color: mediumaquamarine;
+}
+
+#score1{
+    position: absolute;
+    left: 3%;
+    top: 10%;
+    font-size: 30px;
+    font-family: sans-serif;
+    color: red;
+}
+
+#score2{
+    position: absolute;
+    right: 3%;
+    top: 10%;
+    font-size: 30px;
+    font-family: sans-serif;
+    color: red;
+}

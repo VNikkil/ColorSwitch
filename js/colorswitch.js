@@ -197,7 +197,7 @@ function animateBG() {
     Obstacle8(Yob - 3800, i % (2 * Math.PI), 120);
     Obstacle1(Yob - 4300, i % (2 * Math.PI), 120);
     Obstacle6(Yob - 4300, i % (2 * Math.PI), 120);
-
+    RadiusDec(Yob - 4300);
 
     //Draws the Obstacle randomly onto the canvas
     for (k = 0; k < 50; k++) {

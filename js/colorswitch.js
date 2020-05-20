@@ -880,8 +880,25 @@ function ColourChanger(Y, i) {
 
 
             if (Y > ball.Y - ball.Radius && Y < ball.Y + ball.Radius && BallCovered == BallTravelled) {
+               if(ball.color != colorr)
                 ball.color = colorr;
-                console.log("inside");
+
+                else
+                {
+                    switch(colorr)
+                    {
+                        case "cyan": ball.color = "darkorchid";
+                                     break;
+                        case "yellow": ball.color = "chartreuse";
+                                     break;
+                        case "chartreuse": ball.color = "yellow";
+                                     break;
+                        case "darkorchid": ball.color = "cyan";
+                                     break;                          
+
+                    }
+                }
+               
             }
 
         }

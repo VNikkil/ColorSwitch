@@ -1214,12 +1214,19 @@ function UltimatePP(Y, i, bg, ball) {
         }
 
         if (Y > ball.Y + ball.Radius && ball.ult == 1) {
-            if (i % 0.4 > 0.1)
-                if (i % 0.4 > 0.2)
-                    if (i % 0.4 > 0.3) ball.color = "darkorchid";
-                    else ball.color = "yellow";
-            else ball.color = "chartreuse";
-            else ball.color = "cyan";
+            tem = Math.floor(Math.random()*4)+1;
+
+            switch(tem)
+            {
+                case 1: ball.color="cyan";
+                        break;
+                case 2: ball.color ="darkorchid";
+                        break;
+               case 3: ball.color = "chartreuse";
+                        break;
+                case 4: ball.color ="yellow";
+                        break;              
+        }
         }
 
         if (ball.time > 10) ball.ult = 0;

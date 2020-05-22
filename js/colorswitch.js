@@ -13,9 +13,9 @@ let U = 0,
 let Yob = 200;
 isPaused = false;
 let z = 0;
-let speed = 0.01;
 
-let ult = 0;
+
+
 
 
 let img = new Image();
@@ -46,9 +46,16 @@ if (localStorage.getItem("MaxTravelled"))
 //Class for the ball
 class Ball {
     constructor(Y, color, Radius) {
+        this.X = 360;
         this.Y = Y;
         this.color = color;
         this.Radius = Radius;
+        this.ult = 0;
+        this.speed = 0.01;
+        this.BallTravelled = 1000;
+        this.BallCovered = 1000;
+        this.Yob;
+        this.time = 0;
     }
 
     get Yaxis() {
@@ -56,6 +63,13 @@ class Ball {
     }
     set Yaxis(Y) {
         this.Y = Y;
+    }
+
+    get tim() {
+        return this.time;
+    }
+    set tim(time) {
+        this.time = time;
     }
 
     get Rads() {
@@ -73,6 +87,45 @@ class Ball {
         return this.color;
     }
 
+    get Ults() {
+        return this.ult;
+    }
+
+    set Ults(ult) {
+        this.ult = ult;
+    }
+
+    get spd() {
+        return this.speed;
+    }
+
+    set spd(spd) {
+        this.speed = spd;
+    }
+
+    get Bt() {
+        return this.BallTravelled;
+    }
+
+    set Bt(Bt) {
+        this.BallTravelled = Bt;
+    }
+
+    get BC() {
+        return this.BallCovered;
+    }
+
+    set BC(BC) {
+        this.BallCovered = BC;
+    }
+
+    get yobb() {
+        return this.Yob;
+    }
+
+    set yobb(yobb) {
+        this.Yob = yobb;
+    }
 
 }
 ball = new Ball(Ymax - 31, "cyan", 15);
@@ -152,7 +205,9 @@ function animateBG() {
     if (!(isPaused))
         requestAnimationFrame(animateBG);
     bg.clearRect(0, 0, innerWidth, innerHeight);
-    i += speed;
+    i = parseFloat(i) + parseFloat(ball.speed);
+   
+    ball.Yob = Yob;
 
     // Draws the line for the prev travelled
     if (PrevBallTravelled != 0) {
@@ -176,81 +231,87 @@ function animateBG() {
 
     
     //Draws the first 9 Obstacles onto the canvas
-    Obstacle1(Yob, i % (2 * Math.PI), 120);
-    ColourChanger(Yob, i);
+    Obstacle1(Yob, i % (2 * Math.PI), 120,bg,ball);
+    ColourChanger(Yob, i,bg,ball);
     //UltimatePP(Yob ,i );
-    ColourChanger(Yob - 280, i);
-    Obstacle2(Yob - 450, -((i * 100) % (4 * 180)));
-    RadiusDec(Yob - 520);
-    Obstacle3(Yob - 800, i / 1.2, 60, 100);
-    Clockwise(Yob - 900);
-    ColourChanger(Yob - 1100,i);
-    Obstacle4(Yob - 1300, i % (2 * Math.PI));
-    ColourChanger(Yob - 1500,i);
-    AntiClockwise(Yob - 1900);
-    Obstacle5(Yob - 1900, i % (2 * Math.PI));
-    SpeedDec(Yob - 2300);
-    Obstacle6(Yob - 2700, i % (2 * Math.PI), 120); //800
-    UltimatePP(Yob - 3200, i);
-    RadiusInc(Yob - 2700);
-    Obstacle7(Yob - 3400, (i * 4) % 40); // 700
-    Obstacle8(Yob - 3800, i % (2 * Math.PI), 120);
-    Obstacle1(Yob - 4300, i % (2 * Math.PI), 120);
-    Obstacle6(Yob - 4300, i % (2 * Math.PI), 120);
-    RadiusDec(Yob - 4300);
+    ColourChanger(Yob - 280, i,bg,ball);
+    Obstacle2(Yob - 450, -((i * 100) % (4 * 180)),bg,ball);
+    RadiusDec(Yob - 520,bg,ball);
+   //UltimatePP(Yob - 520,i,bg,ball);
+    Obstacle3(Yob - 800, i / 1.2, 60, 100,bg,ball);
+    Clockwise(Yob - 900,bg,ball);
+    //UltimatePP(Yob - 900);
+    ColourChanger(Yob - 1100,i,bg,ball);
+    //UltimatePP(Yob - 1200,i,bg,ball);
+    Obstacle4(Yob - 1300, i % (2 * Math.PI),bg,ball);
+    ColourChanger(Yob - 1500,i,bg,ball);
+    AntiClockwise(Yob - 1900,bg,ball);
+    //UltimatePP(Yob - 1900,i,bg,ball);
+    //UltimatePP(Yob - 2300,i,bg,ball);
+    Obstacle5(Yob - 1900, i % (2 * Math.PI),bg,ball);
+    SpeedDec(Yob - 2300,bg,ball);
+    //UltimatePP(Yob - 520);
+    Obstacle6(Yob - 2700, i % (2 * Math.PI), 120,bg,ball); //800
+    UltimatePP(Yob - 3200, i,bg,ball);
+    RadiusInc(Yob - 2700,bg,ball);
+    Obstacle7(Yob - 3400, (i * 4) % 40,bg,ball); // 700
+    Obstacle8(Yob - 3800, i % (2 * Math.PI), 120,bg,ball);
+    Obstacle1(Yob - 4300, i % (2 * Math.PI), 120,bg,ball);
+    Obstacle6(Yob - 4300, i % (2 * Math.PI), 120,bg,ball);
+    RadiusDec(Yob - 4300,bg,ball);
 
     //Draws the Obstacle randomly onto the canvas
     for (k = 0; k < 50; k++) {
         choice = posit[k];
         switch (choice) {
             case 1:
-                powerups(Yob - 5000 - k * 600 + 300, i, powerposit[2 * k + 1]);
-                Obstacle1(Yob - 5000 - k * 600, i % (2 * Math.PI), 120);
-                powerups(Yob - 5000 - k * 600, i, powerposit[2 * k + 2]);
+                powerups(Yob - 5000 - k * 600 + 300, i, powerposit[2 * k + 1],bg,ball);
+                Obstacle1(Yob - 5000 - k * 600, i % (2 * Math.PI), 120,bg,ball);
+                powerups(Yob - 5000 - k * 600, i, powerposit[2 * k + 2],bg,ball);
                 break;
 
             case 2:
-                powerups(Yob - 5000 - k * 600 + 200, i, powerposit[2 * k + 1]);
-                Obstacle2(Yob - 5000 - k * 600, -((i * 100) % (4 * 180)));
-                powerups(Yob - 5000 - k * 600 - 200, i, powerposit[2 * k + 2]);
+                powerups(Yob - 5000 - k * 600 + 200, i, powerposit[2 * k + 1],bg,ball);
+                Obstacle2(Yob - 5000 - k * 600, -((i * 100) % (4 * 180)),bg,ball);
+                powerups(Yob - 5000 - k * 600 - 200, i, powerposit[2 * k + 2],bg,ball);
                 break;
 
             case 3:
-                powerups(Yob - 5000 - k * 600 + 300, i, powerposit[2 * k + 1]);
-                Obstacle3(Yob - 5000 - k * 600, i / 1.2, 60, 100);
-                powerups(Yob - 5000 - k * 600 - 300, i, powerposit[2 * k + 2]);
+                powerups(Yob - 5000 - k * 600 + 300, i, powerposit[2 * k + 1],bg,ball);
+                Obstacle3(Yob - 5000 - k * 600, i / 1.2, 60, 100,bg,ball);
+                powerups(Yob - 5000 - k * 600 - 300, i, powerposit[2 * k + 2],bg,ball);
                 break;
 
             case 4:
-                powerups(Yob - 5000 - k * 600 + 300, i, powerposit[2 * k + 1]);
-                Obstacle4(Yob - 5000 - k * 600, i % (2 * Math.PI));
-                powerups(Yob - 5000 - k * 600, i, powerposit[2 * k + 2]);
+                powerups(Yob - 5000 - k * 600 + 300, i, powerposit[2 * k + 1],bg,ball);
+                Obstacle4(Yob - 5000 - k * 600, i % (2 * Math.PI),bg,ball);
+                powerups(Yob - 5000 - k * 600, i, powerposit[2 * k + 2],bg,ball);
                 break;
 
             case 5:
-                Obstacle5(Yob - 5000 - k * 600, i % (2 * Math.PI));
-                powerups(Yob - 5000 - k * 600, i, powerposit[2 * k + 2]);
+                Obstacle5(Yob - 5000 - k * 600, i % (2 * Math.PI),bg,ball);
+                powerups(Yob - 5000 - k * 600, i, powerposit[2 * k + 2],bg,ball);
                 break;
 
             case 6:
-                Obstacle6(Yob - 5000 - k * 600, i % (2 * Math.PI), 120);
-                powerups(Yob - 5000 - k * 600, i, powerposit[2 * k + 2]);
+                Obstacle6(Yob - 5000 - k * 600, i % (2 * Math.PI), 120,bg,ball);
+                powerups(Yob - 5000 - k * 600, i, powerposit[2 * k + 2],bg,ball);
                 break;
 
             case 7:
-                Obstacle7(Yob - 5000 - k * 600, (i * 4) % 40);
-                UltimatePP(Yob - 5000 - k * 600 + 200, i, 6);
+                Obstacle7(Yob - 5000 - k * 600, (i * 4) % 40,bg,ball);
+                UltimatePP(Yob - 5000 - k * 600 + 200, i, 6,bg,ball);
                 break;
 
             case 8:
-                Obstacle8(Yob - 5000 - k * 600, i % (2 * Math.PI), 120);
-                powerups(Yob - 5000 - k * 600, i, powerposit[2 * k + 1]);
+                Obstacle8(Yob - 5000 - k * 600, i % (2 * Math.PI), 120,bg,ball);
+                powerups(Yob - 5000 - k * 600, i, powerposit[2 * k + 1],bg,ball);
                 break;
 
             case 9:
-                Obstacle1(Yob - 5000 - k * 600, i % (2 * Math.PI), 120);
-                Obstacle6(Yob - 5000 - k * 600, i % (2 * Math.PI), 120);
-                powerups(Yob - 5000 - k * 600, i, powerposit[2 * k + 1]);
+                Obstacle1(Yob - 5000 - k * 600, i % (2 * Math.PI), 120,bg,ball);
+                Obstacle6(Yob - 5000 - k * 600, i % (2 * Math.PI), 120,bg,ball);
+                powerups(Yob - 5000 - k * 600, i, powerposit[2 * k + 1],bg,ball);
                 break;
 
         }
@@ -298,20 +359,20 @@ function animateBG() {
     }
 
     //    Score
-    if (BallTravelled > ball.Y - Yob + 200)
-        BallTravelled = ball.Y - Yob + 200;
+    if (ball.BallTravelled > ball.Y - Yob + 200)
+        ball.BallTravelled = ball.Y - Yob + 200;
 
-    BallCovered = ball.Y - Yob + 200;
+    ball.BallCovered = ball.Y - Yob + 200;
 
     bg.beginPath();
     bg.font = "50px Comic Sans MS";
     bg.fillStyle = "red";
-    bg.fillText(" " + Math.floor((Ymax + 31 - BallTravelled) / 400), 650, 50);
+    bg.fillText(" " + Math.floor((Ymax + 31 - ball.BallTravelled) / 400), 650, 50);
     shadow(U, ball.Y, ball.Radius);
     bg.globalAlpha = 1;
 
-    if (MaxTravelled > BallTravelled)
-        MaxTravelled = BallTravelled;
+    if (MaxTravelled > ball.BallTravelled)
+        MaxTravelled = ball.BallTravelled;
 
     score.innerHTML = Math.floor((Ymax + 31 - MaxTravelled) / 400).toString();
 
@@ -321,57 +382,56 @@ function animateBG() {
 
 
 
-function powerups(Y, i, choice) {
+function powerups(Y, i, choice,bg, ball) {
     switch (choice) {
         case 1:
-            ColourChanger(Y, i);
+            ColourChanger(Y, i, bg, ball);
             break;
 
         case 2:
-            SpeedInc(Y);
+            SpeedInc(Y, bg, ball);
             break;
 
         case 3:
-            SpeedDec(Y);
+            SpeedDec(Y, bg, ball);
             break;
 
         case 4:
-            RadiusInc(Y);
+            RadiusInc(Y, bg, ball);
             break;
 
         case 5:
-            RadiusDec(Y);
+            RadiusDec(Y, bg, ball);
             break;
 
         case 6:
-            UltimatePP(Y);
+            UltimatePP(Y, i, bg, ball);
             break;
         case 7:
-            UltimatePP(Y);
+            UltimatePP(Y, i, bg, ball);
             break;
 
         case 8:
-            Normal(Y);
+            Normal(Y, bg, ball);
             break;
 
         case 9:
-            Clockwise(Y);
+            Clockwise(Y, bg, ball);
             break;
 
         case 10:
-            AntiClockwise(Y);
+            AntiClockwise(Y, bg, ball);
             break;
 
         case 11:
-            ColourChanger(Y, i);
+            ColourChanger(Y, i, bg, ball);
             break;
 
         default:
-            Normal(Y);
+            Normal(Y, bg, ball);
             break;
     }
 }
-
 
 function shadow(U, Y, R) {
     for (var j = 0; j < 2; j++) {
@@ -419,635 +479,18 @@ function resume() {
 }
 
 
-function Obstacle1(Y, i, Radius) {
-    if (Y < 2000 && Y > -2000) {
-        bg.beginPath();
-        bg.lineWidth = 25;
-        bg.arc(360, Y, Radius, i, i + Math.PI / 2, false);
-        bg.strokeStyle = "cyan";
-        bg.stroke();
-        CheckCollisionObs1(Y, i, Radius, "cyan");
-
-        bg.beginPath();
-        bg.lineWidth = 25;
-        bg.arc(360, Y, Radius, i + Math.PI / 2, i + 2 * Math.PI / 2, false);
-        bg.strokeStyle = "chartreuse";
-        bg.stroke();
-        CheckCollisionObs1(Y, (i + Math.PI / 2) % (2 * Math.PI), Radius, "chartreuse");
-
-        bg.beginPath();
-        bg.lineWidth = 25;
-        bg.arc(360, Y, Radius, i + 2 * Math.PI / 2, i + 3 * Math.PI / 2, false);
-        bg.strokeStyle = "yellow";
-        bg.stroke();
-        CheckCollisionObs1(Y, (i + Math.PI) % (2 * Math.PI), Radius, "yellow");
-
-        bg.beginPath();
-        bg.lineWidth = 25;
-        bg.arc(360, Y, Radius, i + 3 * Math.PI / 2, i, false);
-        bg.strokeStyle = "darkorchid";
-        bg.stroke();
-        CheckCollisionObs1(Y, (i + 3 * Math.PI / 2) % (2 * Math.PI), Radius, "darkorchid");
-    }
-}
-
-function CheckCollisionObs1(Y, j, Radius, ColourToCheck) {
-    if (j >= 0 && j <= Math.PI / 2)
-        if ((ball.Y + ball.Radius > Y + Radius + 12 && ball.Y - ball.Radius < Y + Radius + 12) ||
-            (ball.Y + ball.Radius > Y + Radius - 12 && ball.Y - ball.Radius < Y + Radius - 12))
-            if (ball.color != ColourToCheck && ult == 0)
-                Gameover();
-
-    if (j > Math.PI && j < 3 * Math.PI / 2)
-        if (ball.Y > Y - Radius - 25 && ball.Y < Y - Radius + 25)
-            if (ball.color != ColourToCheck && ult == 0)
-                Gameover();
-}
-
-function Obstacle2(Y, i) {
-    if (Y < 2000 && Y > -2000) {
-        bg.beginPath();
-        bg.fillStyle = "cyan";
-        bg.fillRect(i - 720, Y, 180, 30);
-        CheckCollisionObs2(Y, i - 720, "cyan");
-
-        bg.beginPath();
-        bg.fillStyle = "chartreuse";
-        bg.fillRect(i - 540, Y, 180, 30);
-        CheckCollisionObs2(Y, i - 540, "chartreuse");
-
-        bg.beginPath();
-        bg.fillStyle = "yellow";
-        bg.fillRect(i - 360, Y, 180, 30);
-        CheckCollisionObs2(Y, i - 360, "yellow");
-
-        bg.beginPath();
-        bg.fillStyle = "darkorchid";
-        bg.fillRect(i - 180, Y, 180, 30);
-        CheckCollisionObs2(Y, i - 180, "darkorchid");
-        bg.beginPath();
-        bg.fillStyle = "cyan";
-        bg.fillRect(i, Y, 180, 30);
-        CheckCollisionObs2(Y, i, "cyan");
-
-        bg.beginPath();
-        bg.fillStyle = "chartreuse";
-        bg.fillRect(i + 180, Y, 180, 30);
-        CheckCollisionObs2(Y, i + 180, "chartreuse");
-
-        bg.beginPath();
-        bg.fillStyle = "yellow";
-        bg.fillRect(i + 360, Y, 180, 30);
-        CheckCollisionObs2(Y, i + 360, "yellow");
-
-        bg.beginPath();
-        bg.fillStyle = "darkorchid";
-        bg.fillRect(i + 540, Y, 180, 30);
-        CheckCollisionObs2(Y, i + 540, "darkorchid");
-
-        bg.beginPath();
-        bg.fillStyle = "cyan";
-        bg.fillRect(i + 4 * 180, Y, 180, 30);
-        CheckCollisionObs2(Y, i + 4 * 180, "cyan");
-
-        bg.beginPath();
-        bg.fillStyle = "chartreuse";
-        bg.fillRect(i + 5 * 180, Y, 180, 30);
-        CheckCollisionObs2(Y, i + 5 * 180, "chartreuse");
-
-        bg.beginPath();
-        bg.fillStyle = "yellow";
-        bg.fillRect(i + 6 * 180, Y, 180, 30);
-        CheckCollisionObs2(Y, i + 6 * 180, "yellow");
-
-        bg.beginPath();
-        bg.fillStyle = "darkorchid";
-        bg.fillRect(i + 7 * 180, Y, 180, 30);
-        CheckCollisionObs2(Y, i + 7 * 180, "darkorchid");
-    }
-
-}
-
-function CheckCollisionObs2(Y, j, ColourToCheck) {
-    if (j > 180 && j < 360)
-        if (ball.Y - ball.Radius < Y + 20 && ball.Y + ball.Radius > Y + 20 || ball.Y - ball.Radius > Y - 20 && ball.Y + ball.Radius < Y)
-            if (ball.color != ColourToCheck && ult == 0)
-                Gameover();
-}
-
-function Obstacle3(Y, i, Radius1, Radius2) {
-    if (Y > -2000 && Y < 2000) {
-        lineWidth = 12;
-        bg.beginPath();
-        bg.lineWidth = lineWidth;
-        bg.arc(360 - Radius1 - lineWidth / 2, Y, Radius1, i, i + Math.PI / 2, false);
-        bg.strokeStyle = "cyan";
-        bg.stroke();
-
-        bg.beginPath();
-        bg.lineWidth = 12;
-        bg.arc(360 + Radius2 + lineWidth / 2, Y, Radius2, -i, -i + Math.PI / 2, false);
-        bg.strokeStyle = "chartreuse";
-        bg.stroke();
-        CheckCollisionObs3(Y, -i, Radius2, "chartreuse");
-        // CheckCollisionObs1(Y,i,"cyan");
-
-        bg.beginPath();
-        bg.lineWidth = 12;
-        bg.arc(360 - Radius1 - lineWidth / 2, Y, Radius1, i + Math.PI / 2, i + 2 * Math.PI / 2, false);
-        bg.strokeStyle = "chartreuse";
-        bg.stroke();
-
-        bg.beginPath();
-        bg.lineWidth = 12;
-        bg.arc(360 + Radius2 + lineWidth / 2, Y, Radius2, -i + Math.PI / 2, -i + 2 * Math.PI / 2, false);
-        bg.strokeStyle = "cyan";
-        bg.stroke();
-        CheckCollisionObs3(Y, 2 * Math.PI - i + Math.PI / 2, Radius2, "cyan");
-        // CheckCollisionObs1(Y,(i+Math.PI/2)%(2*Math.PI),"chartreuse");
-
-
-        bg.beginPath();
-        bg.lineWidth = 12;
-        bg.arc(360 - Radius1 - lineWidth / 2, Y, Radius1, i + 2 * Math.PI / 2, i + 3 * Math.PI / 2, false);
-        bg.strokeStyle = "yellow";
-        bg.stroke();
-
-        bg.beginPath();
-        bg.lineWidth = 12;
-        bg.arc(360 + Radius2 + lineWidth / 2, Y, Radius2, -i + 2 * Math.PI / 2, -i + 3 * Math.PI / 2, false);
-        bg.strokeStyle = "darkorchid";
-        bg.stroke();
-        CheckCollisionObs3(Y, -i + 2 * Math.PI / 2, Radius2, "darkorchid");
-        //CheckCollisionObs1(Y,(i+Math.PI)%(2*Math.PI),"yellow");
-
-        bg.beginPath();
-        bg.lineWidth = 12;
-        bg.arc(360 - Radius1 - lineWidth / 2, Y, Radius1, i + 3 * Math.PI / 2, i, false);
-        bg.strokeStyle = "darkorchid";
-        bg.stroke();
-
-        bg.beginPath();
-        bg.lineWidth = 12;
-        bg.arc(360 + Radius2 + lineWidth / 2, Y, Radius2, -i + 3 * Math.PI / 2, -i, false);
-        bg.strokeStyle = "yellow";
-        bg.stroke();
-        CheckCollisionObs3(Y, -i + 3 * Math.PI / 2, Radius2, "yellow");
-        // CheckCollisionObs1(Y,(i+3*Math.PI/2)%(2*Math.PI),"darkorchid");
-    }
-}
-
-function CheckCollisionObs3(Y, j, Radius, ColourToCheck) {
-
-    if (360 + Radius + Radius * Math.cos(j) <= 360 + ball.Radius - 10 || ((360 + Radius + Radius * Math.cos(j + Math.PI / 2) <= 360 + ball.Radius + 5) && (Y + Radius * Math.sin(j + Math.PI / 2) < Y + 5))) {
-
-        if (Y + Radius * Math.sin(j) > ball.Y && ball.Y < Y + Radius * (1 / Math.sqrt(5)) && ball.Y > Y - Radius * (1 / Math.sqrt(5))) //&& ball.Y < Y + Radius && ball.Y > Y - Radius*Math.cos(Math.PI/4))
-        {
-
-            if (ball.color != ColourToCheck && ult == 0)
-                Gameover();
-        }
-    }
-}
-
-function Obstacle4(Y, i) {
-    if (Y > -2000 && Y < 2000) {
-        R = 120;
-
-        bg.beginPath();
-        bg.lineWidth = 30;
-        bg.moveTo(240, Y);
-        bg.lineTo(240 + R * Math.cos(i), Y + R * Math.sin(i));
-        bg.strokeStyle = "cyan";
-        bg.stroke();
-        CheckCollisionObs4(240 + R * Math.cos(i), Y + R * Math.sin(i), "cyan");
-
-        bg.beginPath();
-        bg.lineWidth = 30;
-        bg.moveTo(480, Y);
-        bg.lineTo(480 + R * Math.cos(-i), Y + R * Math.sin(-i));
-        bg.strokeStyle = "chartreuse";
-        bg.stroke();
-        //bg.arc(240 + i,Y + Math.sqrt(R*R - i*i),15,0,2*Math.PI,true);
-        //bg.fillStyle = "cyan";
-        //bg.fill();
-        bg.beginPath();
-        bg.lineWidth = 30;
-        bg.moveTo(240, Y);
-        bg.lineTo(240 + R * Math.cos(i + Math.PI / 2), Y + R * Math.sin(i + Math.PI / 2));
-        bg.strokeStyle = "yellow";
-        bg.stroke();
-        CheckCollisionObs4(240 + R * Math.cos(i + Math.PI / 2), Y + R * Math.sin(i + Math.PI / 2), "yellow");
-
-        bg.beginPath();
-        bg.lineWidth = 30;
-        bg.moveTo(480, Y);
-        bg.lineTo(480 + R * Math.cos(-i + Math.PI / 2), Y + R * Math.sin(-i + Math.PI / 2));
-        bg.strokeStyle = "yellow";
-        bg.stroke();
-
-
-        bg.beginPath();
-        bg.lineWidth = 30;
-        bg.moveTo(240, Y);
-        bg.lineTo(240 + R * Math.cos(i + Math.PI), Y + R * Math.sin(i + Math.PI));
-        bg.strokeStyle = "chartreuse";
-        bg.stroke();
-        CheckCollisionObs4(240 + R * Math.cos(i + Math.PI), Y + R * Math.sin(i + Math.PI), "chartreuse");
-
-        bg.beginPath();
-        bg.lineWidth = 30;
-        bg.moveTo(480, Y);
-        bg.lineTo(480 + R * Math.cos(-i + Math.PI), Y + R * Math.sin(-i + Math.PI));
-        bg.strokeStyle = "cyan";
-        bg.stroke();
-
-
-
-        bg.beginPath();
-        bg.lineWidth = 30;
-        bg.moveTo(240, Y);
-        bg.lineTo(240 + R * Math.cos(i - Math.PI / 2), Y + R * Math.sin(i - Math.PI / 2));
-        bg.strokeStyle = "darkorchid";
-        bg.stroke();
-        CheckCollisionObs4(240 + R * Math.cos(i - Math.PI / 2), Y + R * Math.sin(i - Math.PI / 2), "darkorchid");
-
-        bg.beginPath();
-        bg.lineWidth = 30;
-        bg.moveTo(480, Y);
-        bg.lineTo(480 + R * Math.cos(-i - Math.PI / 2), Y + R * Math.sin(-i - Math.PI / 2));
-        bg.strokeStyle = "darkorchid";
-        bg.stroke();
-
-        bg.beginPath();
-        bg.arc(240, Y, 15, 0, 2 * Math.PI, true);
-        bg.fillStyle = "pink";
-        bg.fill();
-
-        bg.beginPath();
-        bg.arc(480, Y, 15, 0, 2 * Math.PI, true);
-        bg.fillStyle = "pink";
-        bg.fill();
-    }
-}
-
-function CheckCollisionObs4(X, Y, ColourToCheck) {
-    if (X <= 360 && X >= 360 - (ball.Radius + 1)) {
-        if (Y >= ball.Y - ball.Radius && Y <= ball.Y + ball.Radius)
-            if (ball.color != ColourToCheck && ult == 0)
-                Gameover();
-    }
-}
-
-function Obstacle5(Y, i) {
-    if (Y > -2000 && Y < 2000) {
-        Obstacle1(Y, i + Math.PI / 4, 160);
-
-        Radius = 100;
-        bg.beginPath();
-        bg.lineWidth = 25;
-        bg.arc(360, Y, Radius, -i + Math.PI / 4, -i + Math.PI / 4 + Math.PI / 2, false);
-        bg.strokeStyle = "cyan";
-        bg.stroke();
-        CheckCollisionObs1(Y, (-i + Math.PI / 4) % (2 * Math.PI), Radius, "cyan");
-
-        bg.beginPath();
-        bg.lineWidth = 25;
-        bg.arc(360, Y, Radius, -i + Math.PI / 4 + Math.PI / 2, -i + Math.PI / 4 + 2 * Math.PI / 2, false);
-        bg.strokeStyle = "darkorchid";
-        bg.stroke();
-        CheckCollisionObs1(Y, (-i + Math.PI / 4 + Math.PI / 2) % (2 * Math.PI), Radius, "darkorchid");
-
-        bg.beginPath();
-        bg.lineWidth = 25;
-        bg.arc(360, Y, Radius, -i + Math.PI / 4 + 2 * Math.PI / 2, -i + Math.PI / 4 + 3 * Math.PI / 2, false);
-        bg.strokeStyle = "yellow";
-        bg.stroke();
-        CheckCollisionObs1(Y, (-i + Math.PI / 4 + 2 * Math.PI / 2) % (2 * Math.PI), Radius, "yellow");
-
-        bg.beginPath();
-        bg.lineWidth = 25;
-        bg.arc(360, Y, Radius, -i + Math.PI / 4 + 3 * Math.PI / 2, -i + Math.PI / 4, false);
-        bg.strokeStyle = "chartreuse";
-        bg.stroke();
-        CheckCollisionObs1(Y, (-i + Math.PI / 4 + 3 * Math.PI / 2) % (2 * Math.PI), Radius, "chartreuse");
-    }
-}
-
-function Obstacle6(Y, i, Radius) {
-    if (Y > -2000 & Y < 2000) {
-        Obstacle6_Arc(Y, i, Radius, "cyan", 30);
-        Obstacle6_Arc(Y, i + Math.PI / 2, Radius, "chartreuse", 30);
-        Obstacle6_Arc(Y, i + Math.PI, Radius, "yellow", 30);
-        Obstacle6_Arc(Y, i - Math.PI / 2, Radius, "darkorchid", 30);
-    }
-}
-
-
-function Obstacle6_Arc(Y, i, Radius, Colour, pos) {
-    if (Y > -2000 && Y < 2000) {
-        bg.beginPath();
-        bg.arc(360 + Radius * Math.cos(i), Y + Radius * Math.sin(i), 20, 0, 2 * Math.PI, true);
-        Check2CircleColl(360 + Radius * Math.cos(i), Y + Radius * Math.sin(i), 20, 360, ball.Y, ball.Radius, Colour);
-
-        Radius += pos;
-        bg.moveTo(360 + Radius * Math.cos(i + Math.PI / 8), Y + Radius * Math.sin(i + Math.PI / 8));
-        bg.arc(360 + Radius * Math.cos(i + Math.PI / 8), Y + Radius * Math.sin(i + Math.PI / 8), 20, 0, 2 * Math.PI, true);
-        Check2CircleColl(360 + Radius * Math.cos(i + Math.PI / 8), Y + Radius * Math.sin(i + Math.PI / 8), 20, 360, ball.Y, ball.Radius, Colour);
-
-
-        Radius += pos;
-        bg.moveTo(360 + Radius * Math.cos(i + Math.PI / 4), Y + Radius * Math.sin(i + Math.PI / 4));
-        bg.arc(360 + Radius * Math.cos(i + Math.PI / 4), Y + Radius * Math.sin(i + Math.PI / 4), 20, 0, 2 * Math.PI, true);
-        Check2CircleColl(360 + Radius * Math.cos(i + Math.PI / 4), Y + Radius * Math.sin(i + Math.PI / 4), 20, 360, ball.Y, ball.Radius, Colour);
-
-        Radius += pos;
-        bg.moveTo(360 + Radius * Math.cos(i + 3 * Math.PI / 8), Y + Radius * Math.sin(i + 3 * Math.PI / 8));
-        bg.arc(360 + Radius * Math.cos(i + 3 * Math.PI / 8), Y + Radius * Math.sin(i + 3 * Math.PI / 8), 20, 0, 2 * Math.PI, true);
-        Check2CircleColl(360 + Radius * Math.cos(i + 3 * Math.PI / 8), Y + Radius * Math.sin(i + 3 * Math.PI / 8), 20, 360, ball.Y, ball.Radius, Colour);
-
-        bg.fillStyle = Colour;
-        bg.fill();
-    }
-}
-
-function Check2CircleColl(X1, Y1, R1, X2, Y2, R2, ColourToCheck) //Obs6 Collision checker
-{
-
-    if (Math.sqrt((X2 - X1) * (X2 - X1) + (Y2 - Y1) * (Y2 - Y1)) < R1 + R2)
-        if (ball.color != ColourToCheck && ult == 0)
-            Gameover();
-}
-
-function Obstacle7(Y, i) {
-    if (Y > -2000 && Y < 2000) {
-        bg.beginPath();
-        bg.lineWidth = 40;
-        bg.moveTo(185, Y + 260);
-        bg.lineTo(565, Y + 270);
-        bg.moveTo(225, Y + 310);
-        bg.lineTo(395, Y);
-        bg.moveTo(315, Y + 10);
-        bg.lineTo(525, Y + 310);
-
-
-
-        if (i > 10)
-            if (i > 20)
-                if (i > 30) {
-                    bg.strokeStyle = "darkorchid";
-                    colorrr = "darkorchid";
-                }
-        else {
-            bg.strokeStyle = "yellow";
-            colorrr = "yellow";
-        } else {
-            bg.strokeStyle = "chartreuse";
-            colorrr = "chartreuse";
-        } else {
-            bg.strokeStyle = "cyan";
-            colorrr = "cyan";
-        }
-        bg.stroke();
-
-        if (ball.Y - ball.Radius < Y + 285 && ball.Y + ball.Radius > Y + 245 || Check2CircleColl(360, Y + 63.82, 60, 360, ball.Y, ball.Radius, colorrr))
-
-            if (ball.color != colorrr && ult == 0)
-                Gameover();
-
-    }
-}
-
-function Obstacle8(Y, i, Radius) {
-    if (Y > -2000 && Y < 2000) {
-        if (i > Math.PI)
-            Radius = Radius + 10 * (2 * Math.PI - i);
-
-        else
-            Radius = Radius + 10 * i;
-
-        bg.beginPath();
-        bg.lineWidth = 25;
-        bg.arc(360, Y, Radius, i, i + Math.PI / 2, false);
-        bg.strokeStyle = "cyan";
-        bg.stroke();
-        CheckCollisionObs1(Y, i, Radius, "cyan");
-
-        bg.beginPath();
-        bg.lineWidth = 25;
-        bg.arc(360, Y, Radius, i + Math.PI / 2, i + 2 * Math.PI / 2, false);
-        bg.strokeStyle = "chartreuse";
-        bg.stroke();
-        CheckCollisionObs1(Y, (i + Math.PI / 2) % (2 * Math.PI), Radius, "chartreuse");
-
-        bg.beginPath();
-        bg.lineWidth = 25;
-        bg.arc(360, Y, Radius, i + 2 * Math.PI / 2, i + 3 * Math.PI / 2, false);
-        bg.strokeStyle = "yellow";
-        bg.stroke();
-        CheckCollisionObs1(Y, (i + Math.PI) % (2 * Math.PI), Radius, "yellow");
-
-        bg.beginPath();
-        bg.lineWidth = 25;
-        bg.arc(360, Y, Radius, i + 3 * Math.PI / 2, i, false);
-        bg.strokeStyle = "darkorchid";
-        bg.stroke();
-        CheckCollisionObs1(Y, (i + 3 * Math.PI / 2) % (2 * Math.PI), Radius, "darkorchid");
-    }
-}
-
-function ColourChanger(Y, i) {
-    if (Y > -2000 && Y < 720) {
-        if (ball.Y > Y || 1)
-
-        {
-            if (BallTravelled > Y - Yob + 200)
-                bg.drawImage(img, 26, 58, 72, 74, 360 - 25, Y - 25, 50, 50);
-
-
-
-            if ((i % 0.4) > 0.1)
-                if ((i % 0.4) > 0.2)
-                    if ((i % 0.4) > 0.3)
-                        colorr = "darkorchid";
-                    else
-                        colorr = "yellow";
-            else
-                colorr = "chartreuse";
-            else
-                colorr = "cyan";
-
-
-
-            if (Y > ball.Y - ball.Radius && Y < ball.Y + ball.Radius && BallCovered == BallTravelled) {
-               if(ball.color != colorr)
-                ball.color = colorr;
-
-                else
-                {
-                    switch(colorr)
-                    {
-                        case "cyan": ball.color = "darkorchid";
-                                     break;
-                        case "yellow": ball.color = "chartreuse";
-                                     break;
-                        case "chartreuse": ball.color = "yellow";
-                                     break;
-                        case "darkorchid": ball.color = "cyan";
-                                     break;                          
-
-                    }
-                }
-               
-            }
-
-        }
-    }
-}
-
-function UltimatePP(Y, i) {
-    if (Y > -2000 && Y < 2000) {
-
-
-        if (ball.Y > Y && ult == 0 && BallTravelled > Y - Yob + 200) {
-            bg.drawImage(img, 691, 56, 97, 97, 360 - 25, Y - 25, 50, 50);
-            if (ball.Y - ball.Radius < Y && ball.Y + ball.Radius > Y) {
-                ult = 1;
-                if (ball.Y + ball.Radius > Y - 25)
-                    time = 0;
-            }
-        }
-
-        if (Y > ball.Y + ball.Radius && ult == 1) {
-           tem = Math.floor(Math.random()*4)+1;
-
-            switch(tem)
-            {
-                case 1: ball.color="cyan";
-                        break;
-                case 2: ball.color ="darkorchid";
-                        break;
-               case 3: ball.color = "chartreuse";
-                        break;
-                case 4: ball.color ="yellow";
-                        break;              
-        }
-        }
-
-        if (time > 10)
-            ult = 0;
-
-        if (ult == 1) {
-            bg.beginPath();
-            if (time > 4)
-                if (time > 6) {
-                    if (time > 8)
-                        bg.fillText("1", 650, 350);
-                    else
-                        bg.fillText("2", 650, 350);
-                }
-
-            else
-                bg.fillText("3", 650, 350);
-
-            bg.fillStyle = "lightred";
-            bg.fill();
-        }
-
-        console.log(time);
-        time += 0.01;
-    }
-
-
-}
-
-
-function RadiusInc(Y) {
-    if (Y > -2000 && Y < 2000) {
-        if (ball.Radius != 25 && ball.Y > Y && BallTravelled > Y - Yob + 200)
-            bg.drawImage(img, 164, 61, 82, 77, 360 - 25, Y - 25, 50, 50);
-        if (Y > ball.Y - ball.Radius && Y < ball.Y + ball.Radius)
-            ball.Radius = 25;
-    }
-}
-
-function RadiusDec(Y) {
-    if (Y > -2000 && Y < 2000) {
-        if (ball.Radius != 10 && ball.Y > Y && BallTravelled > Y - Yob + 200)
-            bg.drawImage(img, 561, 62, 85, 87, 360 - 25, Y - 25, 50, 50);
-        if (Y > ball.Y - ball.Radius && Y < ball.Y + ball.Radius)
-            ball.Radius = 10;
-    }
-}
-
-function SpeedInc(Y) {
-    if (Y > -2000 && Y < 2000) {
-        if (Math.abs(speed) != 0.02 && BallTravelled > Y - Yob + 200) {
-            bg.drawImage(img, 314, 62, 78, 77, 360 - 25, Y - 25, 50, 50);
-            if (Y > ball.Y - ball.Radius && Y < ball.Y + ball.Radius)
-                speed = 0.02;
-        }
-    }
-}
-
-function SpeedDec(Y) {
-    if (Y > -2000 && Y < 2000) {
-        if (Math.abs(speed) != 0.007 && BallTravelled > Y - Yob + 200) {
-            bg.drawImage(img, 440, 67, 76, 76, 360 - 25, Y - 25, 50, 50);
-            if (Y > ball.Y - ball.Radius && Y < ball.Y + ball.Radius)
-                speed = 0.007;
-        }
-    }
-}
-
-function Clockwise(Y) {
-    if (Y > -2000 && Y < 2000) {
-        if (speed > 0 && BallTravelled > Y - Yob + 200) {
-            bg.drawImage(img, 163, 202, 107, 85, 360 - 25, Y - 25, 50, 50);
-            if (Y > ball.Y - ball.Radius && Y < ball.Y + ball.Radius) {
-
-                speed = -speed;
-            }
-        }
-    }
-}
-
-function AntiClockwise(Y) {
-    if (Y < 2000 && Y > -2000) {
-        if (speed < 0 && BallTravelled > Y - Yob + 200) {
-            bg.drawImage(img, 33, 208, 96, 78, 360 - 25, Y - 25, 50, 50);
-            if (Y > ball.Y - ball.Radius && Y < ball.Y + ball.Radius) {
-                speed = -speed;
-            }
-        }
-    }
-}
-
-function Normal(Y) {
-    if (Y < 650 && Y > -2000) {
-        if (speed != 0.01 || ball.Radius != 15 && BallTravelled > Y - Yob + 200) {
-            bg.drawImage(img, 317, 201, 87, 85, 360 - 25, Y - 25, 50, 50);
-            if (Y > ball.Y - ball.Radius && Y < ball.Y + ball.Radius) {
-                speed = 0.01;
-                ball.Radius = 15;
-            }
-        }
-    }
-}
-
-
 function Gameover() {
     alert("Game over ");
     U = 0;
     t = 0;
     ball.Y = Ymax - 31;
     Yob = 200;
-    ult = 0;
+    ball.Yob = 200;
+    ball.ult = 0;
     ball.Radius = 15;
-    speed = 0.01;
+    ball.speed = 0.01;
     i = 0;
-    PrevBallTravelled = BallTravelled;
-    BallTravelled = 1000;
+    PrevBallTravelled = ball.BallTravelled;
+    ball.BallTravelled = 1000;
     k = 0;
-    changed = 0;
 }

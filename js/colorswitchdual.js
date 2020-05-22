@@ -30,7 +30,7 @@ let speed1 = 0.01,
     speed2 = 0.01;
 
 let posit = [1, 1, 2];
-let powerposit = [1, 1, 2];
+let powerposit = [1,1,1,1,1,1,1];
 for (l = 0; l < 98; l++) {
     choice = Math.floor(Math.random() * 9) + 1;
     posit.push(choice);
@@ -45,6 +45,7 @@ img.src = "images/powerups.png";
 //Class for the ball
 class Ball {
     constructor(Y, color, Radius) {
+        this.X = 275;
         this.Y = Y;
         this.color = color;
         this.Radius = Radius;
@@ -465,7 +466,7 @@ function resume() {
         g2.fillText("3", 500, 300);
     }
 }
-
+/*
 function Obstacle1(Y, i, Radius, bg, ball) {
     if (Y < 2000 && Y > -2000) {
         bg.beginPath();
@@ -1159,18 +1160,25 @@ function Obstacle8(Y, i, Radius, bg, ball) {
 
 function ColourChanger(Y, i, bg, ball) {
     if (Y > -2000 && Y < 720) {
+        console.log(i);
         if (ball.Y > Y || 1) {
             console.log(" bt=  " + ball.BallTravelled + " " + Y - ball.Yob + 200);
             if (ball.BallTravelled > Y - ball.Yob + 200)
                 bg.drawImage(img, 26, 58, 72, 74, 275 - 25, Y - 25, 50, 50);
 
-            if (i % 0.4 > 0.1)
-                if (i % 0.4 > 0.2)
-                    if (i % 0.4 > 0.3) colorr = "darkorchid";
-                    else colorr = "yellow";
-            else colorr = "chartreuse";
-            else colorr = "cyan";
+                tem = Math.floor(Math.random()*4)+1;
 
+                switch(tem)
+                {
+                    case 1: colorr="cyan";
+                            break;
+                    case 2: colorr ="darkorchid";
+                            break;
+                   case 3:  colorr = "chartreuse";
+                            break;
+                    case 4: colorr ="yellow";
+                            break;              
+            }
             if (
                 Y > ball.Y - ball.Radius &&
                 Y < ball.Y + ball.Radius &&
@@ -1194,6 +1202,7 @@ function ColourChanger(Y, i, bg, ball) {
 
                     }
                 }
+                console.log("inside");
             }
         }
     }
@@ -1214,6 +1223,8 @@ function UltimatePP(Y, i, bg, ball) {
         }
 
         if (Y > ball.Y + ball.Radius && ball.ult == 1) {
+            console.log("Colorchanging func :" + i);
+            
             tem = Math.floor(Math.random()*4)+1;
 
             switch(tem)
@@ -1227,7 +1238,7 @@ function UltimatePP(Y, i, bg, ball) {
                 case 4: ball.color ="yellow";
                         break;              
         }
-        }
+    }
 
         if (ball.time > 10) ball.ult = 0;
 
@@ -1313,7 +1324,7 @@ function Normal(Y, bg, ball) {
         }
     }
 }
-
+*/
 function Gameover(ball) {
     if (ball == ball1) alert("Player 2 Won !!!");
     else alert("Player 1 Won !!! ");
